@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Lab Tests</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Hospital Management System</h1>
+    <nav>
+        <a class="tab" href="index.html">Home</a>
+        <a class="tab active" href="lab-test.html">Lab Test</a>
+    </nav>
+    <section>
+        <h2>Manage Lab Tests</h2>
+        <form action="insert.php" method="POST">
+            <input type="hidden" name="table" value="Lab_Test1">
+            <label for="patient_id">Patient ID:</label>
+            <input type="number" id="patient_id" name="Patient_ID" required>
+            <label for="test_name">Test Name:</label>
+            <input type="text" id="test_name" name="Test_Name" required>
+            <label for="test_date">Test Date:</label>
+            <input type="date" id="test_date" name="Test_Date" required>
+            <label for="results">Results:</label>
+            <input type="text" id="results" name="Results" required>
+            <button type="submit">Save</button>
+        </form>
+        <h2>Lab Test Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Patient ID</th>
+                    <th>Test Name</th>
+                    <th>Test Date</th>
+                    <th>Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'db-config.php';
+                $sql = "SELECT * FROM Lab_Test1";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['Test_ID']}</td>
+                                <td>{$row['Patient_ID']}</td>
+                                <td>{$row['Test_Name']}</td>
+                                <td>{$row['Test_Date']}</td>
+                                <td>{$row['Results']}</td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>No records found</td></tr>";
+                }
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Patients</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Hospital Management System</h1>
+    <nav>
+        <a class="tab" href="index.html">Home</a>
+        <a class="tab active" href="patient.html">Patient</a>
+    </nav>
+    <section>
+        <h2>Manage Patients</h2>
+        <form action="insert.php" method="POST">
+            <input type="hidden" name="table" value="Patient">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="First_Name" required>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="Last_Name" required>
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="DOB" required>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="Gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <label for="blood_group">Blood Group:</label>
+            <input type="text" id="blood_group" name="Blood_Group" required>
+            <label for="mobile_no">Mobile No:</label>
+            <input type="text" id="mobile_no" name="Mobile_No" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="Email" required>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="Address" required>
+            <button type="submit">Save</button>
+        </form>
+        <h2>Patient Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Blood Group</th>
+                    <th>Mobile No</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'db-config.php';
+                $sql = "SELECT * FROM Patient";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['Patient_ID']}</td>
+                                <td>{$row['First_Name']}</td>
+                                <td>{$row['Last_Name']}</td>
+                                <td>{$row['DOB']}</td>
+                                <td>{$row['Gender']}</td>
+                                <td>{$row['Blood_Group']}</td>
+                                <td>{$row['Mobile_No']}</td>
+                                <td>{$row['Email']}</td>
+                                <td>{$row['Address']}</td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='9'>No records found</td></tr>";
+                }
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

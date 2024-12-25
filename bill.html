@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bills</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Hospital Management System</h1>
+    <nav>
+        <a class="tab" href="index.html">Home</a>
+        <a class="tab active" href="bill.html">Bill</a>
+    </nav>
+    <section>
+        <h2>Manage Bills</h2>
+        <form action="insert.php" method="POST">
+            <input type="hidden" name="table" value="Bill1">
+            <label for="patient_id">Patient ID:</label>
+            <input type="number" id="patient_id" name="Patient_ID" required>
+            <label for="appointment_id">Appointment ID:</label>
+            <input type="number" id="appointment_id" name="Appointment_ID" required>
+            <label for="total_amount">Total Amount:</label>
+            <input type="number" id="total_amount" name="Total_Amount" required>
+            <label for="payment_status">Payment Status:</label>
+            <select id="payment_status" name="Payment_Status" required>
+                <option value="Paid">Paid</option>
+                <option value="Unpaid">Unpaid</option>
+            </select>
+            <label for="payment_date">Payment Date:</label>
+            <input type="date" id="payment_date" name="Payment_Date">
+            <button type="submit">Save</button>
+        </form>
+        <h2>Bill Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bill ID</th>
+                    <th>Patient ID</th>
+                    <th>Appointment ID</th>
+                    <th>Total Amount</th>
+                    <th>Payment Status</th>
+                    <th>Payment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'db-config.php';
+                $sql = "SELECT * FROM Bill1";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['Bill_ID']}</td>
+                                <td>{$row['Patient_ID']}</td>
+                                <td>{$row['Appointment_ID']}</td>
+                                <td>{$row['Total_Amount']}</td>
+                                <td>{$row['Payment_Status']}</td>
+                                <td>{$row['Payment_Date']}</td>
+                              </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6'>No records found</td></tr>";
+                }
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>
